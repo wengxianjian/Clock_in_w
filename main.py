@@ -20,7 +20,7 @@ class ClockInApp(QMainWindow):
     
     def initUI(self):
         self.setWindowTitle('每日打卡')
-        self.setGeometry(100, 200, 900, 700)
+        self.setGeometry(100, 100, 900, 1200)
         
         # 设置图标
         if os.path.exists('clock_in_icon.png'):
@@ -57,76 +57,17 @@ class ClockInApp(QMainWindow):
         self.start_date_edit.setText(datetime.now().strftime('%Y-%m-%d'))
         self.start_date_edit.setStyleSheet('''
             QLineEdit {
-                background-color: #FFFFFF;
+                background-color: #F0F4F8;
                 border: 2px solid #BDC3C7;
                 border-radius: 5px;
                 padding: 5px;
                 color: #2C3E50;
             }
         ''')
-        self.save_start_date_btn = QPushButton('保存')
-        self.save_start_date_btn.setStyleSheet('''
-            QPushButton {
-                background-color: #3498DB;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                padding: 8px 15px;
-                font-weight: bold;
-            }
-            QPushButton:hover {
-                background-color: #2980B9;
-            }
-        ''')
-        
-        # 字体设置
-        self.font_label = QLabel('字体大小:')
-        self.font_label.setStyleSheet('color: #2C3E50; font-weight: bold;')
-        self.font_size_combo = QComboBox()
-        self.font_size_combo.addItems([str(i) for i in range(8, 37)])
-        self.font_size_combo.setCurrentText('16')
-        self.font_size_combo.setStyleSheet('''
-            QComboBox {
-                background-color: #FFFFFF;
-                border: 2px solid #BDC3C7;
-                border-radius: 5px;
-                padding: 5px;
-                color: #2C3E50;
-                font-size: 14px;
-                min-width: 80px;
-            }
-            QComboBox:hover {
-                border: 2px solid #3498DB;
-            }
-            QComboBox::drop-down {
-                border: none;
-                width: 20px;
-            }
-            QComboBox::down-arrow {
-                image: none;
-                border: 2px solid #BDC3C7;
-                border-radius: 3px;
-                width: 10px;
-                height: 10px;
-                background-color: #BDC3C7;
-            }
-            QComboBox QAbstractItemView {
-                background-color: #FFFFFF;
-                border: 2px solid #BDC3C7;
-                border-radius: 5px;
-                selection-background-color: #3498DB;
-                selection-color: white;
-                padding: 5px;
-            }
-        ''')
-        self.font_size_combo.currentTextChanged.connect(self.changeFont)
         
         settings_layout.addWidget(self.start_date_label)
         settings_layout.addWidget(self.start_date_edit)
-        settings_layout.addWidget(self.save_start_date_btn)
         settings_layout.addStretch()
-        settings_layout.addWidget(self.font_label)
-        settings_layout.addWidget(self.font_size_combo)
         
         settings_frame.setLayout(settings_layout)
         main_layout.addWidget(settings_frame)
@@ -141,7 +82,7 @@ class ClockInApp(QMainWindow):
         title_label.setStyleSheet('color: #2C3E50; padding: 5px;')
         
         self.day_count_label = QLabel('今天是打卡的第 0 天')
-        day_count_font = QFont('Microsoft YaHei', 12)
+        day_count_font = QFont('Microsoft YaHei', 14)
         self.day_count_label.setFont(day_count_font)
         self.day_count_label.setStyleSheet('color: #27AE60; font-weight: bold; padding: 5px;')
         
@@ -173,7 +114,7 @@ class ClockInApp(QMainWindow):
         self.task_list.setMinimumHeight(300)
         self.task_list.setStyleSheet('''
             QListWidget {
-                background-color: #FFFFFF;
+                background-color: #D5F4E6;
                 border: 2px solid #BDC3C7;
                 border-radius: 5px;
                 padding: 5px;
@@ -184,7 +125,7 @@ class ClockInApp(QMainWindow):
                 font-size: 14px;
             }
             QListWidget::item:hover {
-                background-color: #D5F4E6;
+                background-color: #B8E6D3;
             }
         ''')
         task_layout.addWidget(self.task_list)
@@ -269,12 +210,12 @@ class ClockInApp(QMainWindow):
         self.calendar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.calendar.setStyleSheet('''
             QCalendarWidget {
-                background-color: #FFFFFF;
+                background-color: #F0F4F8;
                 border: 2px solid #F39C12;
                 border-radius: 5px;
             }
             QCalendarWidget QTableView {
-                background-color: #FFFFFF;
+                background-color: #F0F4F8;
                 selection-background-color: #F39C12;
                 selection-color: white;
                 alternate-background-color: #FEF9E7;
@@ -306,7 +247,7 @@ class ClockInApp(QMainWindow):
                 background-color: #E67E22;
             }
             QCalendarWidget QSpinBox {
-                background-color: #FFFFFF;
+                background-color: #F0F4F8;
                 border: 1px solid #BDC3C7;
                 border-radius: 3px;
                 padding: 2px;
@@ -326,12 +267,50 @@ class ClockInApp(QMainWindow):
         self.add_task_btn.clicked.connect(self.addTask)
         self.delete_task_btn.clicked.connect(self.deleteTask)
         self.edit_task_btn.clicked.connect(self.editTask)
-        self.save_start_date_btn.clicked.connect(self.saveStartDate)
         self.calendar.selectionChanged.connect(self.onDateSelected)
     
     def createMenuBar(self):
         """创建菜单栏"""
         menubar = self.menuBar()
+        
+        # 设置菜单栏样式
+        menubar.setStyleSheet('''
+            QMenuBar {
+                background-color: #F0F4F8;
+                color: #2C3E50;
+                font-size: 14px;
+                border-bottom: 1px solid #BDC3C7;
+            }
+            QMenuBar::item {
+                background-color: transparent;
+                padding: 5px 10px;
+                border-radius: 3px;
+            }
+            QMenuBar::item:selected {
+                background-color: #3498DB;
+                color: white;
+            }
+            QMenu {
+                background-color: #F0F4F8;
+                color: #2C3E50;
+                border: 1px solid #BDC3C7;
+                border-radius: 5px;
+                padding: 5px;
+            }
+            QMenu::item {
+                padding: 8px 20px;
+                border-radius: 3px;
+            }
+            QMenu::item:selected {
+                background-color: #3498DB;
+                color: white;
+            }
+            QMenu::separator {
+                height: 1px;
+                background-color: #BDC3C7;
+                margin: 5px 0;
+            }
+        ''')
         
         # 文件菜单
         file_menu = menubar.addMenu('文件')
@@ -411,11 +390,11 @@ class ClockInApp(QMainWindow):
         self.task_list.clear()
         today = datetime.now().strftime('%Y-%m-%d')
         
-        # 获取当前字体大小
+        # 获取当前字体大小（从打卡天数标签获取）
         try:
-            font_size = int(self.font_size_combo.currentText())
+            font_size = self.day_count_label.font().pointSize()
         except:
-            font_size = 14
+            font_size = 16
         
         for task in self.data['tasks']:
             item = QListWidgetItem()
@@ -463,7 +442,7 @@ class ClockInApp(QMainWindow):
                     height: {font_size + 6}px;
                     border: 2px solid #BDC3C7;
                     border-radius: 3px;
-                    background-color: #FFFFFF;
+                    background-color: #F0F4F8;
                 }}
                 QCheckBox::indicator:checked {{
                     background-color: #27AE60;
@@ -505,7 +484,7 @@ class ClockInApp(QMainWindow):
             # 设置编辑框样式
             notes_edit.setStyleSheet(f'''
                 QTextEdit {{
-                    background-color: #FFFFFF;
+                    background-color: #F0F4F8;
                     border: 2px solid #BDC3C7;
                     border-radius: 5px;
                     padding: 5px;
@@ -593,7 +572,7 @@ class ClockInApp(QMainWindow):
                 font-weight: bold;
             }
             QInputDialog QLineEdit {
-                background-color: #FFFFFF;
+                background-color: #F0F4F8;
                 border: 2px solid #3498DB;
                 border-radius: 5px;
                 padding: 8px;
@@ -722,7 +701,7 @@ class ClockInApp(QMainWindow):
                     font-weight: bold;
                 }
                 QInputDialog QLineEdit {
-                    background-color: #FFFFFF;
+                    background-color: #F0F4F8;
                     border: 2px solid #3498DB;
                     border-radius: 5px;
                     padding: 8px;
@@ -825,87 +804,67 @@ class ClockInApp(QMainWindow):
     
     def changeFont(self):
         """修改字体大小"""
-        font_size = int(self.font_size_combo.currentText())
+        # 获取当前字体，确保是微软雅黑
+        current_font = self.day_count_label.font()
+        if current_font.family() != 'Microsoft YaHei':
+            current_font = QFont('Microsoft YaHei', 14)
         
-        # 在改变字体前，先保存所有当前的完成情况
-        self.saveAllCurrentNotes()
-        
-        # 应用字体大小到所有控件
-        font = QFont('Microsoft YaHei', font_size)
-        
-        # 更新标签字体
-        self.start_date_label.setFont(font)
-        self.font_label.setFont(font)
-        
-        # 更新打卡天数标签
-        self.day_count_label.setFont(QFont('Microsoft YaHei', font_size))
-        
-        # 更新任务列表
-        self.loadTasks()
-        
-        # 更新日历字体
-        calendar_font_size = max(10, font_size - 2)
-        self.calendar.setStyleSheet(f'''
-            QCalendarWidget {{
-                background-color: #FFFFFF;
-                border: 2px solid #F39C12;
-                border-radius: 5px;
-            }}
-            QCalendarWidget QTableView {{
-                background-color: #FFFFFF;
-                selection-background-color: #F39C12;
-                selection-color: white;
-                alternate-background-color: #FEF9E7;
-                font-size: {calendar_font_size}px;
-            }}
-            QCalendarWidget QToolButton {{
-                background-color: #F39C12;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 5px;
-                font-weight: bold;
-                font-size: {font_size}px;
-            }}
-            QCalendarWidget QToolButton:hover {{
-                background-color: #E67E22;
-            }}
-            QCalendarWidget QToolButton#qt_calendar_prevmonth,
-            QCalendarWidget QToolButton#qt_calendar_nextmonth {{
-                background-color: #F39C12;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                padding: 5px;
-                font-weight: bold;
-            }}
-            QCalendarWidget QToolButton#qt_calendar_prevmonth:hover,
-            QCalendarWidget QToolButton#qt_calendar_nextmonth:hover {{
-                background-color: #E67E22;
-            }}
-            QCalendarWidget QSpinBox {{
-                background-color: #FFFFFF;
-                border: 1px solid #BDC3C7;
-                border-radius: 3px;
-                padding: 2px;
-                color: #2C3E50;
-                font-size: {font_size}px;
-            }}
-        ''')
-        
-        msg = QMessageBox(self)
-        msg.setWindowTitle('成功')
-        msg.setText(f'字体大小已设置为 {font_size}pt')
-        msg.setIcon(QMessageBox.Information)
-        msg.setStyleSheet('''
-            QMessageBox {
+        # 设置字体对话框样式
+        QApplication.instance().setStyleSheet('''
+            QFontDialog {
                 background-color: #F0F4F8;
             }
-            QMessageBox QLabel {
+            QFontDialog QLabel {
                 color: #2C3E50;
-                font-size: 12px;
             }
-            QPushButton {
+            QFontDialog QGroupBox {
+                color: #2C3E50;
+                border: 1px solid #BDC3C7;
+                border-radius: 5px;
+                margin-top: 10px;
+                padding-top: 10px;
+                font-weight: bold;
+            }
+            QFontDialog QGroupBox::title {
+                subcontrol-origin: margin;
+                left: 10px;
+                padding: 0 3px;
+            }
+            QFontDialog QLineEdit {
+                background-color: #F0F4F8;
+                border: 2px solid #BDC3C7;
+                border-radius: 5px;
+                padding: 5px;
+                color: #2C3E50;
+            }
+            QFontDialog QComboBox {
+                background-color: #F0F4F8;
+                border: 2px solid #BDC3C7;
+                border-radius: 5px;
+                padding: 5px;
+                color: #2C3E50;
+            }
+            QFontDialog QComboBox QAbstractItemView {
+                background-color: #F0F4F8;
+                border: 2px solid #BDC3C7;
+                border-radius: 5px;
+                selection-background-color: #3498DB;
+                selection-color: white;
+            }
+            QFontDialog QListWidget {
+                background-color: #F0F4F8;
+                border: 2px solid #BDC3C7;
+                border-radius: 5px;
+                color: #2C3E50;
+            }
+            QFontDialog QListWidget::item {
+                padding: 5px;
+            }
+            QFontDialog QListWidget::item:selected {
+                background-color: #3498DB;
+                color: white;
+            }
+            QFontDialog QDialogButtonBox QPushButton {
                 background-color: #3498DB;
                 color: white;
                 border: none;
@@ -914,11 +873,117 @@ class ClockInApp(QMainWindow):
                 font-weight: bold;
                 min-width: 80px;
             }
-            QPushButton:hover {
+            QFontDialog QDialogButtonBox QPushButton:hover {
                 background-color: #2980B9;
             }
         ''')
-        msg.exec_()
+        
+        # 打开字体选择对话框
+        font, ok = QFontDialog.getFont(current_font, self, '选择字体')
+        
+        # 恢复默认样式
+        QApplication.instance().setStyleSheet('')
+        
+        if ok:
+            # 确保使用微软雅黑字体
+            font_family = font.family()
+            if font_family != 'Microsoft YaHei':
+                font.setFamily('Microsoft YaHei')
+            
+            font_size = font.pointSize()
+            
+            # 在改变字体前，先保存所有当前的完成情况
+            self.saveAllCurrentNotes()
+            
+            # 应用字体大小到所有控件
+            font = QFont('Microsoft YaHei', font_size)
+            
+            # 更新标签字体
+            self.start_date_label.setFont(font)
+            
+            # 更新打卡天数标签
+            self.day_count_label.setFont(QFont('Microsoft YaHei', font_size))
+            
+            # 更新任务列表
+            self.loadTasks()
+            
+            # 更新日历字体
+            calendar_font_size = max(10, font_size - 2)
+            self.calendar.setStyleSheet(f'''
+                QCalendarWidget {{
+                    background-color: #D5F4E6;
+                    border: 2px solid #F39C12;
+                    border-radius: 5px;
+                }}
+                QCalendarWidget QTableView {{
+                    background-color: #D5F4E6;
+                    selection-background-color: #F39C12;
+                    selection-color: white;
+                    alternate-background-color: #B8E6D3;
+                    font-size: {calendar_font_size}px;
+                }}
+                QCalendarWidget QToolButton {{
+                    background-color: #F39C12;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 5px;
+                    font-weight: bold;
+                    font-size: {font_size}px;
+                }}
+                QCalendarWidget QToolButton:hover {{
+                    background-color: #E67E22;
+                }}
+                QCalendarWidget QToolButton#qt_calendar_prevmonth,
+                QCalendarWidget QToolButton#qt_calendar_nextmonth {{
+                    background-color: #F39C12;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    padding: 5px;
+                    font-weight: bold;
+                    font-size: {font_size}px;
+                }}
+                QCalendarWidget QToolButton#qt_calendar_prevmonth:hover,
+                QCalendarWidget QToolButton#qt_calendar_nextmonth:hover {{
+                    background-color: #E67E22;
+                }}
+                QCalendarWidget QSpinBox {{
+                    background-color: #F0F4F8;
+                    border: 1px solid #BDC3C7;
+                    border-radius: 3px;
+                    padding: 2px;
+                    color: #2C3E50;
+                    font-size: {font_size}px;
+                }}
+            ''')
+            
+            msg = QMessageBox(self)
+            msg.setWindowTitle('成功')
+            msg.setText(f'字体大小已设置为 {font_size}pt')
+            msg.setIcon(QMessageBox.Information)
+            msg.setStyleSheet('''
+                QMessageBox {
+                    background-color: #F0F4F8;
+                }
+                QMessageBox QLabel {
+                    color: #2C3E50;
+                    font-size: 12px;
+                }
+                QPushButton {
+                    background-color: #3498DB;
+                    color: white;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 8px 15px;
+                    font-weight: bold;
+                    min-width: 80px;
+                }
+                QPushButton:hover {
+                    background-color: #2980B9;
+                }
+            ''')
+            msg.exec_()
     
     def updateDayCount(self):
         """更新打卡天数"""
