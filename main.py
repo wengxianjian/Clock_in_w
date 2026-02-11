@@ -48,8 +48,8 @@ class ClockInApp(QMainWindow):
         settings_layout.setSpacing(15)
         
         # 初始日期设置
-        start_date_label = QLabel('初始日期:')
-        start_date_label.setStyleSheet('color: #2C3E50; font-weight: bold;')
+        self.start_date_label = QLabel('初始日期:')
+        self.start_date_label.setStyleSheet('color: #2C3E50; font-weight: bold;')
         self.start_date_edit = QLineEdit()
         self.start_date_edit.setText(datetime.now().strftime('%Y-%m-%d'))
         self.start_date_edit.setStyleSheet('''
@@ -77,8 +77,8 @@ class ClockInApp(QMainWindow):
         ''')
         
         # 字体设置
-        font_label = QLabel('字体大小:')
-        font_label.setStyleSheet('color: #2C3E50; font-weight: bold;')
+        self.font_label = QLabel('字体大小:')
+        self.font_label.setStyleSheet('color: #2C3E50; font-weight: bold;')
         self.font_size_combo = QComboBox()
         self.font_size_combo.addItems([str(i) for i in range(8, 37)])
         self.font_size_combo.setCurrentText('14')
@@ -118,11 +118,11 @@ class ClockInApp(QMainWindow):
         ''')
         self.font_size_combo.currentTextChanged.connect(self.changeFont)
         
-        settings_layout.addWidget(start_date_label)
+        settings_layout.addWidget(self.start_date_label)
         settings_layout.addWidget(self.start_date_edit)
         settings_layout.addWidget(self.save_start_date_btn)
         settings_layout.addStretch()
-        settings_layout.addWidget(font_label)
+        settings_layout.addWidget(self.font_label)
         settings_layout.addWidget(self.font_size_combo)
         
         settings_frame.setLayout(settings_layout)
@@ -755,6 +755,10 @@ class ClockInApp(QMainWindow):
         
         # 应用字体大小到所有控件
         font = QFont('Microsoft YaHei', font_size)
+        
+        # 更新标签字体
+        self.start_date_label.setFont(font)
+        self.font_label.setFont(font)
         
         # 更新打卡天数标签
         self.day_count_label.setFont(QFont('Microsoft YaHei', font_size))
