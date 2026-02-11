@@ -42,6 +42,5 @@ echo ========================================
 echo Result:
 echo Executable: dist\ClockIn.exe
 echo.
-echo Press any key to open dist folder...
+echo Press any key to exit...
 pause >nul
-explorer dist

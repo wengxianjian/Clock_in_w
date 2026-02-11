@@ -359,7 +359,7 @@ class ClockInApp(QMainWindow):
             self.data = {
                 'start_date': datetime.now().strftime('%Y-%m-%d'),
                 'tasks': [
-                    {'name': '醒了不赖床', 'days': 0, 'completed': []},
+                    {'name': '醒了立刻起床', 'days': 0, 'completed': []},
                     {'name': '锻炼身体一分钟', 'days': 0, 'completed': []},
                     {'name': '阅读一页书', 'days': 0, 'completed': []}
                 ]
