@@ -401,6 +401,12 @@ class ClockInApp(QMainWindow):
             task_layout.setContentsMargins(5, 5, 5, 5)
             task_layout.setSpacing(10)
             
+            # 复选框容器
+            checkbox_container = QWidget()
+            checkbox_layout = QHBoxLayout()
+            checkbox_layout.setContentsMargins(0, 0, 0, 0)
+            checkbox_layout.setSpacing(10)
+            
             # 复选框
             checkbox = QCheckBox()
             
@@ -409,14 +415,23 @@ class ClockInApp(QMainWindow):
             today_date = datetime.strptime(today, '%Y-%m-%d')
             days_passed = (today_date - start_date).days + 1
             
-            task_text = f"{task['name']} {days_passed}天"
-            checkbox.setText(task_text)
-            checkbox.setStyleSheet(f'''
-                QCheckBox {{
+            # 使用HTML格式化文本，让天数显示为红色加粗
+            task_text = f"{task['name']} <span style='color: #E74C3C; font-weight: bold;'>{days_passed}天</span>"
+            
+            # 创建标签来显示任务文本（支持HTML）
+            task_label = QLabel(task_text)
+            task_label.setStyleSheet(f'''
+                QLabel {{
                     color: #2C3E50;
                     font-size: {font_size}px;
                     padding: 5px;
-                    spacing: 5px;
+                }}
+            ''')
+            
+            checkbox.setStyleSheet(f'''
+                QCheckBox {{
+                    font-size: {font_size}px;
+                    padding: 5px;
                 }}
                 QCheckBox::indicator {{
                     width: {font_size + 6}px;
@@ -442,7 +457,13 @@ class ClockInApp(QMainWindow):
             # 连接信号
             checkbox.stateChanged.connect(lambda state, t=task, d=today: self.toggleTaskCompletion(t, d, state))
             
-            task_layout.addWidget(checkbox)
+            # 将复选框和标签添加到容器布局
+            checkbox_layout.addWidget(checkbox)
+            checkbox_layout.addWidget(task_label)
+            checkbox_container.setLayout(checkbox_layout)
+            
+            # 将容器添加到任务布局
+            task_layout.addWidget(checkbox_container)
             
             # 完成情况编辑框
             notes_edit = QTextEdit()
