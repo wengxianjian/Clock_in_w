@@ -81,7 +81,7 @@ class ClockInApp(QMainWindow):
         self.font_label.setStyleSheet('color: #2C3E50; font-weight: bold;')
         self.font_size_combo = QComboBox()
         self.font_size_combo.addItems([str(i) for i in range(8, 37)])
-        self.font_size_combo.setCurrentText('14')
+        self.font_size_combo.setCurrentText('16')
         self.font_size_combo.setStyleSheet('''
             QComboBox {
                 background-color: #FFFFFF;
