@@ -503,6 +503,34 @@ class ClockInApp(QMainWindow):
         self.saveData()
         self.updateCalendar()
     
+    def saveAllCurrentNotes(self):
+        """保存所有当前任务列表中的完成情况"""
+        today = datetime.now().strftime('%Y-%m-%d')
+        
+        # 遍历任务列表中的所有项
+        for i in range(self.task_list.count()):
+            item = self.task_list.item(i)
+            task_widget = self.task_list.itemWidget(item)
+            
+            # 获取任务widget中的布局
+            layout = task_widget.layout()
+            
+            # 获取第二个控件（完成情况编辑框）
+            if layout.count() >= 2:
+                notes_edit = layout.itemAt(1).widget()
+                if isinstance(notes_edit, QTextEdit):
+                    # 找到对应的任务
+                    task_index = i
+                    if task_index < len(self.data['tasks']):
+                        task = self.data['tasks'][task_index]
+                        # 保存完成情况
+                        if 'notes' not in task:
+                            task['notes'] = {}
+                        task['notes'][today] = notes_edit.toPlainText()
+        
+        # 保存到文件
+        self.saveData()
+    
     def addTask(self):
         """添加任务"""
         dialog = QInputDialog(self)
@@ -752,6 +780,9 @@ class ClockInApp(QMainWindow):
     def changeFont(self):
         """修改字体大小"""
         font_size = int(self.font_size_combo.currentText())
+        
+        # 在改变字体前，先保存所有当前的完成情况
+        self.saveAllCurrentNotes()
         
         # 应用字体大小到所有控件
         font = QFont('Microsoft YaHei', font_size)
