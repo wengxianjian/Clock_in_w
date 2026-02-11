@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
     QListWidget, QListWidgetItem, QCheckBox, QPushButton, QCalendarWidget, 
-    QLabel, QLineEdit, QMessageBox, QFontDialog, QSplitter, QFrame, QInputDialog, QTextEdit, QComboBox
+    QLabel, QLineEdit, QMessageBox, QFontDialog, QSplitter, QFrame, QInputDialog, QTextEdit, QComboBox, QSizePolicy
 )
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtGui import QFont, QColor, QPalette, QIcon, QTextCharFormat
@@ -251,18 +251,19 @@ class ClockInApp(QMainWindow):
             }
         ''')
         calendar_layout = QVBoxLayout()
-        calendar_layout.setSpacing(3)
+        calendar_layout.setSpacing(2)
         calendar_layout.setContentsMargins(3, 3, 3, 3)
         
         calendar_title = QLabel('打卡日历')
         calendar_title.setFont(QFont('Microsoft YaHei', 16, QFont.Bold))
-        calendar_title.setStyleSheet('color: #F39C12; padding: 0px;')
+        calendar_title.setStyleSheet('color: #F39C12; padding: 0px; margin: 0px;')
         calendar_layout.addWidget(calendar_title)
         
         self.calendar = QCalendarWidget()
         self.calendar.setMinimumDate(QDate.currentDate().addMonths(-12))
         self.calendar.setMaximumDate(QDate.currentDate().addMonths(12))
-        self.calendar.setMaximumHeight(280)
+        self.calendar.setMinimumHeight(250)
+        self.calendar.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.calendar.setStyleSheet('''
             QCalendarWidget {
                 background-color: #FFFFFF;
@@ -387,7 +388,7 @@ class ClockInApp(QMainWindow):
         
         # 获取当前字体大小
         try:
-            font_size = int(self.font_size_combo.text())
+            font_size = int(self.font_size_combo.currentText())
         except:
             font_size = 14
         
