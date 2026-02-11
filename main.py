@@ -20,7 +20,7 @@ class ClockInApp(QMainWindow):
     
     def initUI(self):
         self.setWindowTitle('每日打卡')
-        self.setGeometry(100, 100, 900, 700)
+        self.setGeometry(100, 150, 900, 700)
         
         # 设置图标
         if os.path.exists('clock_in_icon.png'):
