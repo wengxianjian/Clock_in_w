@@ -1,0 +1,23 @@
+{
+  "start_date": "2026-02-11",
+  "tasks": [
+    {
+      "name": "醒了立刻起床",
+      "days": 0,
+      "completed": [],
+      "notes": {}
+    },
+    {
+      "name": "锻炼身体一分钟",
+      "days": 0,
+      "completed": [],
+      "notes": {}
+    },
+    {
+      "name": "阅读一页书",
+      "days": 0,
+      "completed": [],
+      "notes": {}
+    }
+  ]
+}
