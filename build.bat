@@ -1,47 +1,47 @@
 @echo off
-chcp 65001
 echo ========================================
-echo 每日计划打卡应用 - 打包脚本
+echo Clock-in App Build Script
 echo ========================================
 echo.
 
-echo [1/4] 检查PyInstaller是否已安装...
+echo [1/5] Checking PyInstaller...
 pip show pyinstaller >nul 2>&1
 if %errorlevel% neq 0 (
-    echo PyInstaller未安装，正在安装...
+    echo PyInstaller not found, installing...
     pip install pyinstaller
-    if %errorlevel% neq 0 (
-        echo 安装失败，请手动运行: pip install pyinstaller
-        pause
-        exit /b 1
-    )
-) else (
-    echo PyInstaller已安装
 )
 echo.
 
-echo [2/4] 清理旧的打包文件...
+echo [2/5] Checking Pillow...
+pip show pillow >nul 2>&1
+if %errorlevel% neq 0 (
+    echo Pillow not found, installing...
+    pip install pillow
+)
+echo.
+
+echo [3/5] Cleaning old files...
 if exist "build" rmdir /s /q "build"
 if exist "dist" rmdir /s /q "dist"
 if exist "*.spec" del /q "*.spec"
-echo 清理完成
+echo Clean complete
 echo.
 
-echo [3/4] 开始打包...
-pyinstaller --onefile --windowed --icon=clock_in_icon.png --name="每日计划打卡" main.py
+echo [4/5] Building...
+pyinstaller --onefile --windowed --icon=clock_in_icon.png --name="ClockIn" main.py
 if %errorlevel% neq 0 (
-    echo 打包失败！
+    echo Build failed!
     pause
     exit /b 1
 )
 echo.
 
-echo [4/4] 打包完成！
+echo [5/5] Build complete!
 echo.
 echo ========================================
-echo 打包结果：
-echo 可执行文件位置: dist\每日计划打卡.exe
+echo Result:
+echo Executable: dist\ClockIn.exe
 echo.
-echo 按任意键打开dist文件夹...
+echo Press any key to open dist folder...
 pause >nul
 explorer dist
