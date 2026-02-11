@@ -33,7 +33,9 @@ pip install PyQt5
 
 ## 使用方法
 
-1. 运行应用：
+### 运行应用
+
+1. 直接运行Python脚本：
    ```bash
    python main.py
    ```
@@ -42,6 +44,28 @@ pip install PyQt5
    ```bash
    start_app.bat
    ```
+
+### 打包成EXE文件
+
+1. 运行打包脚本：
+   ```bash
+   build.bat
+   ```
+
+   该脚本会自动：
+   - 检查并安装PyInstaller（如果未安装）
+   - 清理旧的打包文件
+   - 使用PyInstaller打包成单个exe文件
+   - 打包完成后自动打开dist文件夹
+
+2. 打包完成后，可执行文件位于：
+   ```
+   dist\每日计划打卡.exe
+   ```
+
+3. 分发：
+   - 只需分发exe文件，无需安装Python环境
+   - 用户直接双击exe文件即可运行
 
 2. 设置初始日期：在顶部设置区域输入开始打卡的日期
 
