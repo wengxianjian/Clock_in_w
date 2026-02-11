@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 from PyQt5.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, 
     QListWidget, QListWidgetItem, QCheckBox, QPushButton, QCalendarWidget, 
-    QLabel, QLineEdit, QMessageBox, QFontDialog, QSplitter, QFrame, QInputDialog, QTextEdit, QComboBox, QSizePolicy
+    QLabel, QLineEdit, QMessageBox, QFontDialog, QSplitter, QFrame, QInputDialog, QTextEdit, QComboBox, QSizePolicy, QMenuBar, QAction
 )
 from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtGui import QFont, QColor, QPalette, QIcon, QTextCharFormat
@@ -20,11 +20,14 @@ class ClockInApp(QMainWindow):
     
     def initUI(self):
         self.setWindowTitle('每日打卡')
-        self.setGeometry(100, 150, 900, 700)
+        self.setGeometry(100, 200, 900, 700)
         
         # 设置图标
         if os.path.exists('clock_in_icon.png'):
             self.setWindowIcon(QIcon('clock_in_icon.png'))
+        
+        # 创建菜单栏
+        self.createMenuBar()
         
         # 设置护眼颜色方案
         self.setEyeFriendlyColors()
@@ -325,6 +328,28 @@ class ClockInApp(QMainWindow):
         self.edit_task_btn.clicked.connect(self.editTask)
         self.save_start_date_btn.clicked.connect(self.saveStartDate)
         self.calendar.selectionChanged.connect(self.onDateSelected)
+    
+    def createMenuBar(self):
+        """创建菜单栏"""
+        menubar = self.menuBar()
+        
+        # 文件菜单
+        file_menu = menubar.addMenu('文件')
+        
+        # 保存初始日期
+        save_date_action = QAction('保存初始日期', self)
+        save_date_action.setShortcut('Ctrl+S')
+        save_date_action.triggered.connect(self.saveStartDate)
+        file_menu.addAction(save_date_action)
+        
+        # 视图菜单
+        view_menu = menubar.addMenu('视图')
+        
+        # 修改字体
+        change_font_action = QAction('修改字体', self)
+        change_font_action.setShortcut('Ctrl+F')
+        change_font_action.triggered.connect(self.changeFont)
+        view_menu.addAction(change_font_action)
     
     def setEyeFriendlyColors(self):
         """设置护眼颜色方案"""
